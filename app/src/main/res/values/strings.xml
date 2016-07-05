@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LogApp</string>
+    <string name="email" />
+    <string name="passw">Введите пароль</string>
+    <string name="email2">Введите email</string>
+    <string name="but">Login</string>
+</resources>
