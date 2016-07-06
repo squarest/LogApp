@@ -11,45 +11,34 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.example.chudofom.logapp.MainActivity">
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="@dimen/layout_width_big"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editText2"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="51dp"
-            android:enabled="@{loginbool}"
-            android:text="@string/but" />
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editText2"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/editText2"
-            android:layout_marginTop="157dp"
-            android:width="200dp"
-            android:height="50dp"
-            android:hint="@string/email2"
-            android:inputType="textEmailAddress" />
+            <EditText
+                android:id="@+id/editText"
+                style="@style/AppTheme.MainRow"
+                android:hint="@string/email2"
+                android:inputType="textEmailAddress" />
 
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:width="200dp"
-            android:height="50dp"
-            android:hint="@string/passw"
-            android:inputType="textPassword" />
+            <EditText
+                android:id="@+id/editText2"
+                style="@style/AppTheme.MainRow"
+                android:hint="@string/passw"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/button"
+                style="@style/AppTheme.MainRow"
+                android:enabled="@{loginbool}"
+                android:text="@string/but" />
+
+        </LinearLayout>
+
     </RelativeLayout>
+
 </layout>

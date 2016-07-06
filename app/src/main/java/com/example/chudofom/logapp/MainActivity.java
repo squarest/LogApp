@@ -1,25 +1,18 @@
 package com.example.chudofom.logapp;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.tool.DataBindingBuilder;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
 import com.example.chudofom.logapp.databinding.ActivityMainBinding;
+import com.jakewharton.rxbinding.widget.RxTextView;
 
-import java.util.regex.Pattern;
+import rx.Observable;
 
 public class MainActivity extends ActionBarActivity implements MainView {
     ActivityMainBinding binder;
     MainPresenterIm presenter;
-    boolean ready;
-    boolean ready2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +20,22 @@ public class MainActivity extends ActionBarActivity implements MainView {
         binder = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binder.setLoginbool(false);
         setListeners();
-        presenter=new MainPresenterIm(this);
-        binder.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.butClicked();
-            }
-        });
+        presenter = new MainPresenterIm(this);
+        binder.button.setOnClickListener(v -> presenter.butClicked());
+    }
+
+    public void setListeners() {
+
+        Observable<Boolean> emailValidation = RxTextView.textChanges(binder.editText)
+                .map(charSequence -> charSequence.toString())
+                .map(s -> s.matches("^.+@.+$"));
+
+        Observable<Boolean> pasValidation = RxTextView.textChanges(binder.editText2)
+                .map(charSequence -> charSequence.toString())
+                .map(s -> s.length() > 5 && s.matches(".*\\d+.*"));
+
+        Observable.combineLatest(emailValidation, pasValidation, (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
+                .subscribe(b -> binder.setLoginbool(b));
     }
 
     @Override
@@ -44,45 +46,6 @@ public class MainActivity extends ActionBarActivity implements MainView {
     @Override
     public String getPassword() {
         return binder.editText2.getText().toString();
-    }
-
-    private void setListeners() {
-        binder.editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ready = s.toString().matches("^.+@.+$");
-                binder.setLoginbool(ready && ready2);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        binder.editText2.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ready2 = s.length() > 5 && s.toString().matches(".*\\d+.*");
-                binder.setLoginbool(ready && ready2);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
     }
 
 
